@@ -63,7 +63,7 @@ Version 2.0 adds more CRUD functionality.  Previously you added R (Read), and no
                 - errors (optional): (array) an array with all errors that occurred
                 
                 
-###Optional : Error state checking
+### Optional : Error state checking
         - It is necessary to adequately handle failure.  For example
             - the server could fail to respond
             - your internet connection might go down

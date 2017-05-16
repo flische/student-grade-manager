@@ -34,10 +34,10 @@ Version 2.0 adds more CRUD functionality.  Previously you added R (Read), and no
 
 
 ## Scope
-> - HTML
+- HTML
     - (optional) Add a modal to handle error messages, if doing optional error handling
     - (optional) Add button "waiting" marker of some sort.  For example a spinner.  Spinner should conceivably be placed in or on the button.  This is for optional error handling.
-> - JS Functionality
+- JS Functionality
     - Activate the load function (from the DB, made in v1.0) on document load.
     - Ensure that your load function records the student's ID, given to you by the database.  This will be important for future interaction with the student, such as deletion or updating.
     - On creating a new student, also send the new student data to the server

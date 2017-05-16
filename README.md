@@ -32,7 +32,7 @@ from the DOM only after we have successfully removed the object from the array.
 
 
 ## Scope
-> - JS Functionality
+- JS Functionality
     - Add an anonymous function as the click handler to the dynamically created delete button for each student row - (Event Delegation)
     - Delete button click handler function should have a call to removeStudent function that removes the object in the student_array
         - Suggested method

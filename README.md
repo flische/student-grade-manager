@@ -40,6 +40,7 @@ Version 1.0 picks up where 0.5 left off. You will now be populating records from
         - Using the LearningFuze SGT API pull records from the DB using an AJAX call
         - With the object you get back from the API find the proper data to add to your SGT
     - API URL: `s-apis.learningfuze.com/sgt/get`
+        - method: post
         - input:
             - api_key: (string) your api key
         - output:

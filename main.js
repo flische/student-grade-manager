@@ -6,8 +6,8 @@ function initializeApp() {
 }
 
 function addClickHandlersToElements() {
-    $('.addButton').on('click', handleAddClicked)
-    $('.cancelButton').on('click', handleCancelClick)
+    $('.addButton').on('click', handleAddClicked);
+    $('.cancelButton').on('click', handleCancelClick);
     $('.getDataFromServerButton').on('click', getDataFromServer);
 }
 
@@ -29,7 +29,7 @@ function addStudent() {
     student_array.push(eachStudentObject);
     clearAddStudentFormInputs();
     updateStudentList();
-    console.log(student_array)
+    console.log(student_array);
 
 }
 
@@ -42,7 +42,7 @@ function clearAddStudentFormInputs() {
 function updateStudentList() {
     renderStudentOnDom(student_array);
     var avgGrade = calculateGradeAverage(student_array);
-    $('.avgGrade').text(avgGrade)
+    $('.avgGrade').text(avgGrade);
 }
 
 function calculateGradeAverage(array) {
@@ -64,14 +64,14 @@ function renderStudentOnDom(array) {
         var tableName = $('<td>');
         var tableCourse = $('<td>');
         var tableGrade = $('<td>');
-        var tableButton = $('<td>')
+        var tableButton = $('<td>');
         var deleteButton = $('<button>', {
             class: 'btn btn-danger dButton',
             id: i,
             text: 'Delete'
         });
-        deleteButton.on('click', handleDeleteButton)
-        tableButton.append(deleteButton)
+        deleteButton.on('click', handleDeleteButton);
+        tableButton.append(deleteButton);
         tableName.text(array[i].name);
         tableCourse.text(array[i].course);
         tableGrade.text(array[i].grade);
@@ -83,7 +83,7 @@ function renderStudentOnDom(array) {
 function handleDeleteButton(){
     this.closest('tr').remove();
     var deleteIndex = $(this).attr('id');
-    student_array.splice(deleteIndex, 1)
+    student_array.splice(deleteIndex, 1);
 
 }
 function getDataFromServer(){
@@ -96,12 +96,12 @@ function getDataFromServer(){
         method: 'POST',
         url: 'https://s-apis.learningfuze.com/sgt/get',
         success: function(response){
-            console.log(response)
+            console.log(response);
         },
         error: function(){
-            console.log('error')
+            console.log('error');
         }
-    }
+    };
     $.ajax(ajaxOptions);
 
 }

@@ -119,6 +119,7 @@ function getDataFromServer(){
             console.log(response);
         },
         error: function(){
+            $('#errorModal').modal({show:true});
             console.log('error');
         }
     };
@@ -142,6 +143,7 @@ function sendNewStudentData(eachStudentObject){
             console.log('student added successfully!');
         },
         error: function(){
+            $('#errorModal').modal({show:true});
             console.log('ERROR');
         }
     };
@@ -158,11 +160,12 @@ function deleteStudentData(eachStudentObject){
         data: theData,
         method: 'POST',
         url: 'https://s-apis.learningfuze.com/sgt/delete',
-        success: function(response){
+        success: function(){
             console.log('student deleted');
             console.log(response);
         },
         error: function(){
+            $('#errorModal').modal({show:true});
             console.log('error');
         }
     };

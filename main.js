@@ -30,6 +30,7 @@ function addStudent() {
     student_array.push(eachStudentObject);
     clearAddStudentFormInputs();
     updateStudentList();
+    sendNewStudentData(eachStudentObject);
     console.log(student_array);
 }
 
@@ -112,6 +113,29 @@ function getDataFromServer(){
         },
         error: function(){
             console.log('error');
+        }
+    };
+    $.ajax(ajaxOptions);
+}
+
+function sendNewStudentData(eachStudentObject){
+    var studentData = {
+        api_key: 'ejGxYw96BE',
+        name: eachStudentObject.name,
+        course: eachStudentObject.course,
+        grade: eachStudentObject.grade,
+        id: student_array[student_array.length -1].id+1
+    };
+    var ajaxOptions = {
+        dataType: 'json',
+        data: studentData,
+        method: 'POST',
+        url: 'https://s-apis.learningfuze.com/sgt/create',
+        success: function(){
+            console.log('student added successfully!');
+        },
+        error: function(){
+            console.log('ERROR');
         }
     };
     $.ajax(ajaxOptions);

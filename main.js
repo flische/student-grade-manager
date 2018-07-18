@@ -40,7 +40,7 @@ function clearAddStudentFormInputs() {
 }
 
 function updateStudentList() {
-    renderStudentOnDom(student_array);
+    renderStudentOnDom(student_array[student_array.length-1]);
     var avgGrade = calculateGradeAverage(student_array);
     $('.avgGrade').text(avgGrade);
 }
@@ -50,7 +50,7 @@ function calculateGradeAverage(array) {
     for (var i = 0; i < array.length; i++) {
         total += parseInt(array[i].grade);
     }
-    var averageGrade = total / array.length;
+    var averageGrade = parseInt(total / array.length);
     if(isNaN(averageGrade)){
         averageGrade = 0;
     }
@@ -62,7 +62,6 @@ function handleCancelClick() {
 }
 
 function renderStudentOnDom(eachStudentObject) {
-    for (var i = 0; i < array.length; i++) {
         var tableRow = $('<tr>');
         var tableName = $('<td>');
         var tableCourse = $('<td>');
@@ -79,14 +78,15 @@ function renderStudentOnDom(eachStudentObject) {
         tableCourse.text(eachStudentObject.course);
         tableGrade.text(eachStudentObject.grade);
         tableRow.append(tableName, tableCourse, tableGrade, tableButton);
-    }
-    $('tbody').append(tableRow);
-
+        $('tbody').append(tableRow);
 }
+
 function handleDeleteButton(){
     this.closest('tr').remove();
     var deleteIndex = $(this).attr('id');
     student_array.splice(deleteIndex, 1);
+    var avgGrade = calculateGradeAverage(student_array);
+    $('.avgGrade').text(avgGrade);
 
 }
 function getDataFromServer(){
@@ -104,6 +104,8 @@ function getDataFromServer(){
                 student_array = responseArray;
                 renderStudentOnDom(responseArray[i]);
             }
+            var avgGrade = calculateGradeAverage(student_array);
+            $('.avgGrade').text(avgGrade);
             console.log(response);
         },
         error: function(){
@@ -112,3 +114,4 @@ function getDataFromServer(){
     };
     $.ajax(ajaxOptions);
 }
+

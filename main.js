@@ -3,6 +3,7 @@ var student_array = [];
 
 function initializeApp() {
     addClickHandlersToElements();
+    getDataFromServer();
 }
 
 function addClickHandlersToElements() {
@@ -30,7 +31,6 @@ function addStudent() {
     clearAddStudentFormInputs();
     updateStudentList();
     console.log(student_array);
-
 }
 
 function clearAddStudentFormInputs() {
@@ -69,10 +69,14 @@ function renderStudentOnDom(eachStudentObject) {
         var tableButton = $('<td>');
         var deleteButton = $('<button>', {
             class: 'btn btn-danger dButton',
-            id: eachStudentObject.name,
+            id: eachStudentObject.id,
             text: 'Delete'
         });
-        deleteButton.on('click', handleDeleteButton);
+        deleteButton.on('click', function(){
+            this.closest('tr').remove();
+            handleDeleteButton(eachStudentObject);
+        });
+
         tableButton.append(deleteButton);
         tableName.text(eachStudentObject.name);
         tableCourse.text(eachStudentObject.course);
@@ -81,14 +85,12 @@ function renderStudentOnDom(eachStudentObject) {
         $('tbody').append(tableRow);
 }
 
-function handleDeleteButton(){
-    this.closest('tr').remove();
-    var deleteIndex = $(this).attr('id');
-    student_array.splice(deleteIndex, 1);
+function handleDeleteButton(currentStudent){
+    student_array.splice(currentStudent, 1);
     var avgGrade = calculateGradeAverage(student_array);
     $('.avgGrade').text(avgGrade);
-
 }
+
 function getDataFromServer(){
     var theData = {
         api_key: 'ejGxYw96BE'

@@ -4,6 +4,12 @@ var student_array = [];
 function initializeApp() {
     addClickHandlersToElements();
     getDataFromServer();
+    $(document).ajaxStart(function(){
+        $('.fa-spin').show();
+    });
+    $(document).ajaxComplete(function(){
+        $('.fa-spin').hide();
+    });
 }
 
 function addClickHandlersToElements() {
@@ -162,3 +168,9 @@ function deleteStudentData(eachStudentObject){
     };
     $.ajax(ajaxOptions);
 }
+
+// var data = {q: search, maxResults: count};
+// var url = "http://s-apis.learningfuze.com/hackathon/youtube/search.php";
+// apis.ajax(data, url, callback);
+
+// http://learning-fuze.github.io/project-apis/hackathon/api-obj.js

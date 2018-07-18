@@ -90,6 +90,7 @@ function handleDeleteButton(currentStudent){
     student_array.splice(currentStudent, 1);
     var avgGrade = calculateGradeAverage(student_array);
     $('.avgGrade').text(avgGrade);
+    deleteStudentData(currentStudent);
 }
 
 function getDataFromServer(){
@@ -141,3 +142,23 @@ function sendNewStudentData(eachStudentObject){
     $.ajax(ajaxOptions);
 }
 
+function deleteStudentData(eachStudentObject){
+    var theData = {
+        api_key: 'ejGxYw96BE',
+        student_id: eachStudentObject.id
+    };
+    var ajaxOptions = {
+        dataType: 'json',
+        data: theData,
+        method: 'POST',
+        url: 'https://s-apis.learningfuze.com/sgt/delete',
+        success: function(response){
+            console.log('student deleted');
+            console.log(response);
+        },
+        error: function(){
+            console.log('error');
+        }
+    };
+    $.ajax(ajaxOptions);
+}

@@ -39,6 +39,7 @@ function addStudent() {
     updateStudentList();
     sendNewStudentData(eachStudentObject);
     console.log(student_array);
+    // getDataFromServer();
 }
 
 function clearAddStudentFormInputs() {
@@ -74,17 +75,17 @@ function renderStudentOnDom(eachStudentObject) {
         var tableName = $('<td>');
         var tableCourse = $('<td>');
         var tableGrade = $('<td>');
-        var editButtonTD = $('<td>');
+        var editAndDeleteButtonsTD = $('<td>');
+        var buttonContainerDiv = $('<div>');
         var updateButton = $('<button>', {
             class: 'btn btn-warning updateButton',
             id: eachStudentObject.id,
-            text: 'Update'
+            text: 'Edit'
         });
         updateButton.on('click', function(){
             $('#editModal').modal({show:true});
             // handleEditEntryButton();
         });
-        var deleteButtonTD = $('<td>');
         var deleteButton = $('<button>', {
             class: 'btn btn-danger dButton',
             id: eachStudentObject.id,
@@ -103,12 +104,13 @@ function renderStudentOnDom(eachStudentObject) {
                 return;
             })
         });
-        editButtonTD.append(updateButton);
-        deleteButtonTD.append(deleteButton);
+        buttonContainerDiv.append(updateButton, deleteButton);
+        editAndDeleteButtonsTD.append(buttonContainerDiv);
+        // deleteButtonTD.append(deleteButton);
         tableName.text(eachStudentObject.name);
         tableCourse.text(eachStudentObject.course);
         tableGrade.text(eachStudentObject.grade);
-        tableRow.append(tableName, tableCourse, tableGrade, editButtonTD, deleteButtonTD);
+        tableRow.append(tableName, tableCourse, tableGrade, editAndDeleteButtonsTD);
         $('tbody').append(tableRow);
 }
 
@@ -199,6 +201,7 @@ function deleteStudentData(eachStudentObject){
         }
     };
     $.ajax(ajaxOptions);
+    // getDataFromServer();
 }
 
 // var data = {q: search, maxResults: count};

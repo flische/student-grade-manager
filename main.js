@@ -10,6 +10,7 @@ function initializeApp() {
     $(document).ajaxComplete(function(){
         $('.fa-spin').hide();
     });
+    // $('#editEntry').modal({show:false});
 }
 
 function addClickHandlersToElements() {
@@ -73,22 +74,41 @@ function renderStudentOnDom(eachStudentObject) {
         var tableName = $('<td>');
         var tableCourse = $('<td>');
         var tableGrade = $('<td>');
-        var tableButton = $('<td>');
+        var editButtonTD = $('<td>');
+        var updateButton = $('<button>', {
+            class: 'btn btn-warning updateButton',
+            id: eachStudentObject.id,
+            text: 'Update'
+        });
+        updateButton.on('click', function(){
+            $('#editModal').modal({show:true});
+            // handleEditEntryButton();
+        });
+        var deleteButtonTD = $('<td>');
         var deleteButton = $('<button>', {
             class: 'btn btn-danger dButton',
             id: eachStudentObject.id,
             text: 'Delete'
         });
         deleteButton.on('click', function(){
-            this.closest('tr').remove();
-            handleDeleteButton(eachStudentObject);
+            $('#deleteConfirmModal').modal({show:true});
+            var closestRow = this.closest('tr');
+            $('.confirmWarningMessage').text(`Are you sure you want to delete ${eachStudentObject.name}?`);
+            $('#confirmDelete').on('click', function(){
+                $(closestRow).remove();
+                deleteStudentData(eachStudentObject);
+                handleDeleteButton(eachStudentObject);
+            });
+            $('#cancelRequest').on('click', function(){
+                return;
+            })
         });
-
-        tableButton.append(deleteButton);
+        editButtonTD.append(updateButton);
+        deleteButtonTD.append(deleteButton);
         tableName.text(eachStudentObject.name);
         tableCourse.text(eachStudentObject.course);
         tableGrade.text(eachStudentObject.grade);
-        tableRow.append(tableName, tableCourse, tableGrade, tableButton);
+        tableRow.append(tableName, tableCourse, tableGrade, editButtonTD, deleteButtonTD);
         $('tbody').append(tableRow);
 }
 
@@ -98,6 +118,15 @@ function handleDeleteButton(currentStudent){
     $('.avgGrade').text(avgGrade);
     deleteStudentData(currentStudent);
 }
+
+// function handleEditEntryButton(currentStudent){
+//     var studentName = ('#studentName');
+//     var course = ('#course');
+//     var studentGrade = ('#studentGrade');
+//     $(this).studentName.val('');
+//     $(this).course.val('');
+//     $(this).studentGrade.val('');
+// }
 
 function getDataFromServer(){
     var theData = {

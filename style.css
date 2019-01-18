@@ -1,0 +1,79 @@
+.thead {
+    background-color: papayawhip;
+}
+
+
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.updateButton {
+    margin-right: 10px;
+}
+
+.getDataFromServerButton {
+    margin-top: 10px;
+}
+
+#errorModal,
+#editModal,
+#deleteConfirmModal {
+    min-width: 300px;
+    /*display: none;*/
+    position: fixed;
+    /*z-index: 3;*/
+    padding-top: 23vmin;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.7);
+}
+
+/* Modal Content */
+#editModal .modal-content {
+    position: relative;
+    margin: auto;
+    padding: 1%;
+    border: 1px solid #888;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@media only screen and (max-width: 505px){
+    button.btn.btn-warning.btn-xs {
+        margin-bottom: 5px;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    .buttonContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .modal-content {
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 480px){
+    .modal-content {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 320px){
+    div.container{
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+    .modal-content {
+        width: 80%;
+    }
+}

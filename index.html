@@ -17,10 +17,12 @@
     <div class="page-header">
         <!-- only show this element when the isnt on mobile -->
         <h1 class="visible-lg">Student Grade Table
+            <div class="initialLoader" id="initialLoader"></div>
             <small class="pull-right">Grade Average : <span class="avgGrade label label-default">0</span></small>
         </h1>
         <!-- only show this element when the user gets to a mobile version -->
         <h3 class="visible-xs">Student Grade Table
+            <div class="initialLoader" id="initialLoader"></div>
             <small class="pull-right">Grade Average : <span class="avgGrade label label-default">0</span></small>
         </h3>
     </div>
@@ -46,10 +48,10 @@
             <input type="text" class="form-control" name="studentGrade" id="studentGrade"
                    placeholder="Student Grade">
         </div>
-        <button type="button" class="btn btn-success  addButton" onclick=""><i class="fa fa-spinner fa-spin"></i><i class="glyphicon glyphicon-plus"></i> Add Student </button>
+        <button type="button" class="btn btn-success  addButton" onclick="handleAddClicked()"><i class="fa fa-spinner fa-spin"></i><i class="glyphicon glyphicon-plus"></i> Add Student </button>
         <button type="button" class="btn btn-default cancelButton" onclick="">  Cancel Request </button>
         <div>
-            <button type="button" class="btn btn-primary getDataFromServerButton" onclick=""><i class="fa fa-spinner fa-spin"></i> Get Data From Server</button>
+            <button type="button" class="btn btn-primary getDataFromServerButton" onclick="handleCancelClick()"><i class="fa fa-spinner fa-spin"></i> Get Data From Server</button>
         </div>
     </div>
     <div class="student-list-container pull-left col-sm-9">
@@ -83,7 +85,7 @@
         </div>
     </div>
     <!-------------Delete Confirmation Modal-------------->
-    <div class="modal fade modal-lg" id="deleteConfirmModal" role="dialog">
+    <!-- <div class="modal fade modal-lg" id="deleteConfirmModal" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,7 +100,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-----------------Edit / Update entry modal------------------>
     <div class="modal fade modal-lg" id="editModal" role="dialog">
@@ -108,36 +110,76 @@
                     <div>Edit Student</div>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <!--START OF MODAL BODY-->
+
+                <div class="modal-body"> 
                     <div class="input-group form-group">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-user"></span>
                         </span>
-                        <input type="text" class="form-control" name="studentName" id="editNameInput" placeholder="Student Name">
+                        <input type="text" class="form-control " name="studentName" id="studentNameEdit" placeholder="Student Name" maxlength="40">
                     </div>
+
                     <div class="input-group form-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                        </span>
-                        <input type="text" class="form-control" name="course" id="editCourseInput" placeholder="Student Course">
-                    </div>
-                    <div class="input-group form-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-education"></span>
-                        </span>
-                        <input type="text" class="form-control" name="studentGrade" id="editGradeInput" placeholder="Student Grade">
-                    </div>
-                </div>
-                <!--END OF MODAL BODY-->
-                <div class="modal-footer">
-                    <button type="button" class="addButton btn btn-success">Save Changes</button>
-                    <button type="button" class="closeButton btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                </span>
+                <input type="text" class="form-control" name="course" id="courseEdit"
+                       placeholder="Student Course" maxlength="40">
             </div>
+
+            <div class="input-group form-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-education" ></span>
+                </span>
+                <input type="text" class="form-control" name="studentGrade" id="studentGradeEdit"
+                       placeholder="Student Grade" maxlength="3">
+            </div>
+            <div id="editContainer" style="display: inline-flex" style="justify-content: space-evenly">
+          <div class="individualId"></div>
+          </div>
+          <div id="editError" style="color: red"></div>
+                <!--END OF MODAL BODY-->
+            </div>
+            <div class="modal-footer editFooter">
+                <div class="loader" id="loader"></div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary saveChanges" onclick="handleUpdateClick()">Save changes</button>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+  <!-- infoModal -->
+  <div class="modal fade" id="emptyModal" tabindex="-1" role="dialog" aria-labelledby="emptyLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content editModal">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"> 
+              <p>No students are currently listed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- delete Modal -->
+       <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="emptyLabel" aria-hidden="true" style="position:fixed;left:15%">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content deleteModal" style="display: table">
+ 
+            <div class="modal-body"> 
+              <p style="text-align: center">Are you sure you want to delete this student?</p>
+            </div>
+            <div style="display: flex; justify-content: center; margin-bottom: 5px ">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right:3vw" onclick="hideModal()">Close</button>
+                <div class="loaderTwo" id="loaderTwo"></div>
+                 <button type="button" class="btn btn-primary modalDeleteButton" style="margin-left: 3vw">Confirm</button>
+              </div>
+          </div>
+        </div>
+      </div>
 
 </body>
 </html>

@@ -140,13 +140,13 @@ function handleDeleteButton(currentStudent){
 
 function getDataFromServer(){
     var theData = {
-        api_key: 'ejGxYw96BE',
+        action: 'readAll',
     };
     var ajaxOptions = {
         dataType: 'json',
         data: theData,
-        method: 'POST',
-        url: 'https://s-apis.learningfuze.com/sgt/get',
+        method: 'GET',
+        url: 'data.php',
         success: function(response){
             var responseArray = response.data;
             for(i=0; i < responseArray.length; i++){
@@ -167,20 +167,22 @@ function getDataFromServer(){
 
 function sendNewStudentData(eachStudentObject){
     var studentData = {
-        api_key: 'ejGxYw96BE',
+        action: 'insert',
         name: eachStudentObject.name,
-        course: eachStudentObject.course,
+        course_name: eachStudentObject.course,
         grade: eachStudentObject.grade,
         id: student_array[student_array.length -1].id+1
     };
     var ajaxOptions = {
         dataType: 'json',
         data: studentData,
-        method: 'POST',
-        url: 'https://s-apis.learningfuze.com/sgt/create',
+        method: 'GET',
+        url: 'data.php',
         success: function(){
             console.log('student added successfully!');
             console.log();
+            getDataFromServer();
+            updateStudentList();
         },
         error: function(){
             $('#errorModal').modal({show:true});
@@ -192,27 +194,52 @@ function sendNewStudentData(eachStudentObject){
 
 function deleteStudentData(eachStudentObject){
     var theData = {
-        api_key: 'ejGxYw96BE',
-        student_id: eachStudentObject.id
+        action: 'delete',
+        id: eachStudentObject.id
     };
     var ajaxOptions = {
         dataType: 'json',
         data: theData,
-        method: 'POST',
-        url: 'https://s-apis.learningfuze.com/sgt/delete',
+        method: 'GET',
+        url: 'data.php',
         success: function(response){
             console.log('student deleted');
             console.log(response);
+            getDataFromServer();
+            updateStudentList();
         },
         error: function(){
             $('#errorModal').modal({show:true});
             console.log('error');
         }
-    };
+    }
     $.ajax(ajaxOptions);
-    // getDataFromServer();
 }
 
+function editStudent(eachStudentObject) {
+    var theData = {
+        action: 'update',
+        id: eachStudentObject.id,
+        name: eachStudentObject.name,
+        course_name: eachStudentObject.course,
+        grade: eachStudentObject.grade,
+    }
+    var ajaxOptions = {
+        dataType:'json',
+        url: 'data.php',
+        method: 'GET',
+        data: theData,
+
+        success:function(){
+            getDataFromServer();
+            updateStudentList();
+        },
+        error:function(){
+            console.log('error connecting to update');
+        }
+    }
+    $.ajax(ajaxOptions);
+}
 // var data = {q: search, maxResults: count};
 // var url = "http://s-apis.learningfuze.com/hackathon/youtube/search.php";
 // apis.ajax(data, url, callback);

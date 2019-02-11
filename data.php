@@ -1,6 +1,7 @@
 <?php
 require('mysql_connect.php');
-define('fromData',true);
+define('fromData', true);
+
 if(empty($_GET['action'])){
 	exit('no action specified');
 }
@@ -9,17 +10,17 @@ $output = [
 	'errors'=>[]
 ];
 switch($_GET['action']){
-	case 'readAll':
-        include('dataApi/read.php');
+	case 'read':
+        include('api/read.php');
 		break;
 	case 'insert':
-        include('dataApi/insert.php');
+        include('api/insert.php');
 		break;
 	case 'delete':
-        include('dataApi/delete.php');
+        include('api/delete.php');
 		break;
 	case 'update':
-        include('dataApi/update.php');
+        include('api/update.php');
 		break;
 }
 $outputJSON = json_encode($output);

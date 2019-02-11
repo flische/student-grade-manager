@@ -1,6 +1,6 @@
 <?php
 
-$id = $_GET['student_id'];
+$id = $_GET['id'];
 
 $sql = "DELETE FROM `student_data` WHERE `id` = $id";
 

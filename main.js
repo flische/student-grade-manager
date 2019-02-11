@@ -46,11 +46,6 @@ function handleAddClicked() {
 }
 
 function addStudent(){
-    if($('#studentName').val().length === 0 || $('#course_name').val().length === 0 || $('#studentGrade').val().length === 0){
-          $('#addModal').modal("show");
-          $('#infoModal').text('Please fill in all the fields.');
-          return;
-    }
     
     var testName = /^[a-zA-Z ]+$/gi.test($('#studentName').val());
     var testCourse = /^[a-zA-Z ]+$/gi.test($('#course_name').val());
@@ -87,7 +82,7 @@ function addStudent(){
           id:null
     }
     newStudent.name = $('#studentName').val();
-    newStudent.course_name = $('#course_name').val();
+    newStudent.course_name = $('#course').val();
     newStudent.grade = $('#studentGrade').val();
     sendNewStudentData(newStudent);
     clearAddStudentFormInputs();
@@ -140,58 +135,6 @@ function handleCancelClick() {
     clearAddStudentFormInputs();
 }
 
-// function renderStudentOnDom(eachStudentObject) {
-//         var tableRow = $('<tr>');
-//         var tableName = $('<td>');
-//         var tableCourse = $('<td>');
-//         var tableGrade = $('<td>');
-//         var editAndDeleteButtonsTD = $('<td>');
-//         var buttonContainerDiv = $('<div>');
-//         var updateButton = $('<button>', {
-//             class: 'btn btn-warning updateButton ',
-//             id: eachStudentObject.id,
-//             text: 'EDIT '
-//         });
-//         var editIcon = $('<i>', {
-//             class: 'glyphicon glyphicon-pencil'
-//         });
-//         updateButton.on('click', function(){
-//             $('#editModal').modal({show:true});
-//             // handleEditEntryButton();
-//         });
-//         var deleteButton = $('<button>', {
-//             class: 'btn btn-danger dButton',
-//             id: eachStudentObject.id,
-//             text: 'Delete '
-//         });
-//         var deleteIcon = $('<i>', {
-//             class: 'glyphicon glyphicon-trash'
-//         });
-//         deleteButton.on('click', function(){
-//             $('#deleteConfirmModal').modal({show:true});
-//             var closestRow = this.closest('tr');
-//             $('.confirmWarningMessage').text(`Are you sure you want to delete ${eachStudentObject.name}?`);
-//             $('#confirmDelete').on('click', function(){
-//                 $(closestRow).remove();
-//                 deleteStudentData(eachStudentObject);
-//                 handleDeleteButton(eachStudentObject);
-//             });
-//             $('#cancelRequest').on('click', function(){
-//                 return;
-//             })
-//         });
-//         updateButton.append(editIcon);
-//         deleteButton.append(deleteIcon);
-//         buttonContainerDiv.append(updateButton, deleteButton);
-//         editAndDeleteButtonsTD.append(buttonContainerDiv);
-//         // deleteButtonTD.append(deleteButton);
-//         tableName.text(eachStudentObject.name);
-//         tableCourse.text(eachStudentObject.course);
-//         tableGrade.text(eachStudentObject.grade);
-//         tableRow.append(tableName, tableCourse, tableGrade, editAndDeleteButtonsTD);
-//         $('tbody').append(tableRow);
-// }
-
 function renderStudentOnDom(newStudent,i){
     var tableBody = $('tbody');
     var tableRow = $('<tr>', {
@@ -215,7 +158,6 @@ function renderStudentOnDom(newStudent,i){
                 student_array = [];
                 getDataFromServer();
                 document.getElementById("loaderTwo").style.visibility = "visible";
-a
           })
           $('#deleteModal').modal('show');
           
@@ -273,18 +215,9 @@ function handleDeleteButton(currentStudent){
     deleteStudentData(currentStudent);
 }
 
-// function handleEditEntryButton(currentStudent){
-//     var studentName = ('#studentName');
-//     var course = ('#course');
-//     var studentGrade = ('#studentGrade');
-//     $(this).studentName.val('');
-//     $(this).course.val('');
-//     $(this).studentGrade.val('');
-// }
-
 function getDataFromServer(){
     var theData = {
-        action: 'readAll',
+        action: 'read',
     };
     var ajaxOptions = {
         dataType: 'json',
@@ -363,10 +296,7 @@ function deleteStudentData(studentObject){
 }
 
 function handleUpdateClick(){
-    if($('#studentNameEdit').val().length === 0 || $('#courseEdit').val().length === 0 || $('#studentGradeEdit').val().length === 0){
-          $('#editError').text('Please complete all the fields.');
-          return;
-    }
+
     var testName = /^[a-zA-Z ]+$/gi.test($('#studentNameEdit').val());
     var testCourse = /^[a-zA-Z ]+$/gi.test($('#courseEdit').val());
     var testGrade = /(?:\b|-)([0-9]{1,2}[0]?|100)\b/gi.test($('#studentGradeEdit').val());
@@ -393,6 +323,7 @@ function handleUpdateClick(){
     var courseEdit = $('#courseEdit').val();
     var studentGradeEdit = $('#studentGradeEdit').val();
     var individualId = parseInt($('.individualId').attr("id"));
+
     var studentUpdate = {
           dataType:'json',
           url: 'data.php',

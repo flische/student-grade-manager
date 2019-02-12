@@ -2,7 +2,6 @@
     background-color: papayawhip;
 }
 
-
 .table>tbody>tr>td {
     vertical-align: middle;
 }
@@ -75,5 +74,11 @@
     }
     .modal-content {
         width: 80%;
+    }
+    .student-add-form {
+        overflow: hidden;
+    }
+    .student-list-container {
+        overflow: scroll;
     }
 }

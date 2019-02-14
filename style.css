@@ -75,9 +75,6 @@
     .modal-content {
         width: 80%;
     }
-    .student-add-form {
-        overflow: hidden;
-    }
     .student-list-container {
         overflow: scroll;
     }

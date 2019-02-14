@@ -4,7 +4,7 @@ var student_array_id = [];
 
 function initializeApp() {
     displayInitialLoader();
-    $('#studentName, #course_name, #studentGrade, #studentNameEdit, #courseEdit, #studentGradeEdit').on('click',function(){
+    $('#studentName, #course, #studentGrade, #studentNameEdit, #courseEdit, #studentGradeEdit').on('click',function(){
           removeClassError($(this));
     })
     addClickHandlersToElements();
@@ -47,8 +47,8 @@ function handleAddClicked() {
 
 function addStudent(){
     
-    var testName = /^[a-zA-Z ]+$/gi.test($('#studentName').val());
-    var testCourse = /^[a-zA-Z ]+$/gi.test($('#course_name').val());
+    var testName = /(^[a-zA-Z 0-9!?$%&*()+=@#^-_",.|`~]{2,30})+$/gi.test($('#studentName').val());
+    var testCourse = /(^[a-zA-Z 0-9!?$%&*()+=@#^-_",.|`~]{2,30})+$/gi.test($('#course').val());
     var testGrade = /(?:\b|-)([0-9]{1,2}[0]?|100)\b/gi.test($('#studentGrade').val());
     if(!testName){
           $('#addModal').modal("show");
@@ -59,7 +59,7 @@ function addStudent(){
     if(!testCourse){
           $('#addModal').modal("show");
           $('#infoModal').text('Please input a valid course name.');
-          $('#course_name').parent().addClass("has-error");
+          $('#course').parent().addClass("has-error");
           return;
     }
     if(!testGrade){
@@ -164,7 +164,7 @@ function renderStudentOnDom(newStudent,i){
     });
     tableRow.append(deleteButton);
     var editButton = $('<button>',{
-          class:"btn btn-success editStudent fa fa-pencil",
+          class:"btn btn-success editStudent glyphicon glyphicon-pencil",
           id:newStudent.id,
           studentName: newStudent.name,
           studentCourse: newStudent.course_name,
@@ -297,8 +297,8 @@ function deleteStudentData(studentObject){
 
 function handleUpdateClick(){
 
-    var testName = /^[a-zA-Z ]+$/gi.test($('#studentNameEdit').val());
-    var testCourse = /^[a-zA-Z ]+$/gi.test($('#courseEdit').val());
+    var testName = /(^[a-zA-Z 0-9!?$%&*()+=@#^-_",.|`~]{2,30})+$/gi.test($('#studentNameEdit').val());
+    var testCourse = /(^[a-zA-Z 0-9!?$%&*()+=@#^-_",.|`~]{2,30})+$/gi.test($('#courseEdit').val());
     var testGrade = /(?:\b|-)([0-9]{1,2}[0]?|100)\b/gi.test($('#studentGradeEdit').val());
     if(!testName){
           $('#editError').text('Please input a valid name.');
@@ -311,7 +311,7 @@ function handleUpdateClick(){
           return;
     }
     if(!testGrade){
-          $('#editError').text('Please input a valid grade.');
+          $('#editError').text('Please input a valid grade. Must be a number between 0-100');
           $('#studentGradeEdit').parent().addClass("has-error");
           return;
     }
